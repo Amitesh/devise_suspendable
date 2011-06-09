@@ -40,7 +40,7 @@ module Devise
 
       # override Activatable
       def active_for_authentication?
-        super && suspended?
+        super && !suspended?
       end
 
       def inactive_message
