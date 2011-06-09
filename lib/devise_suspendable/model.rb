@@ -28,19 +28,23 @@ module Devise
         return if suspended?
         self.suspended_at = Time.zone.now
         self.suspension_reason = reason
-        self.save(:validate = false)
+        self.save(:validate => false)
       end
 
       def unsuspend!
         return if !suspended?
         self.suspended_at = nil
         self.suspension_reason = nil
-        self.save(:validate = false) if self.changed?
+        self.save(:validate => false) if self.changed?
       end
 
       # override Activatable
-      def active?
+      def active_for_authentication?
         super && suspended?
+      end
+
+      def inactive_message
+        "Account is suspended"
       end
     end
   end
