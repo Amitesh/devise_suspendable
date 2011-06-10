@@ -40,8 +40,10 @@ module Devise
 
       # override Activatable
       def active_for_authentication?
-        super && suspended?
+        super && !suspended?
       end
+
+      alias :active? :active_for_authentication?
 
       def inactive_message
         "Account is suspended"
