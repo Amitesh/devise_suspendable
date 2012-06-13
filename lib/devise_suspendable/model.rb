@@ -38,16 +38,19 @@ module Devise
         self.save(:validate => false) if self.changed?
       end
 
-      # override Activatable
+      # make it compatible with latest devise
       def active_for_authentication?
         super && !suspended?
       end
-
-      alias :active? :active_for_authentication?
-
+      
+      # Overwrites invalid_message from Devise::Models::Suspendable to define
+      # the correct reason for sign in message
       def inactive_message
-        "Account is suspended"
+        suspended? ? :suspended : super
       end
+      
+      alias :active? :active_for_authentication?
+      
     end
   end
 end
